@@ -20,7 +20,9 @@ export default function PropertiesPage() {
             38+ verified listings across all NCR cities. Filter by location, type, and budget.
           </p>
         </div>
-        <PropertiesClient />
+        <Suspense fallback={<div className="text-center py-20 text-gray-400">Loading properties...</div>}>
+          <PropertiesClient />
+        </Suspense>
       </main>
       <Footer />
     </>
