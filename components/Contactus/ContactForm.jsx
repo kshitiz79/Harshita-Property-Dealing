@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { NCR_CITIES } from '@/lib/data'
 
 const INITIAL = { name: '', phone: '', email: '', location: '', budget: '', message: '' }
 
@@ -96,10 +97,7 @@ export default function ContactForm() {
             className={`w-full border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.location ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-gray-50'}`}
           >
             <option value="">Select location</option>
-            <option value="Delhi">Delhi</option>
-            <option value="Noida">Noida</option>
-            <option value="Ghaziabad">Ghaziabad</option>
-            <option value="Gurgaon">Gurgaon</option>
+            {NCR_CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
           {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location}</p>}
         </div>
