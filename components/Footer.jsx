@@ -4,7 +4,7 @@ import { NCR_CITIES } from '@/lib/data'
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 pt-12 pb-6">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Brand */}
         <div>
           <div className="flex items-center gap-2 mb-3">
@@ -81,12 +81,6 @@ export default function Footer() {
             </li>
             <li>🕐 Mon–Sat: 9 AM – 7 PM</li>
           </ul>
-          <a
-            href="tel:+919876543210"
-            className="mt-4 inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-colors"
-          >
-            📞 Call Now
-          </a>
         </div>
       </div>
 

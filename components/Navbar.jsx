@@ -23,10 +23,6 @@ export default function Navbar() {
           <Link href="/ncr-cities" className="hover:text-blue-600 transition-colors">NCR Cities</Link>
           <Link href="/#categories" className="hover:text-blue-600 transition-colors">Categories</Link>
           <Link href="/#why-us" className="hover:text-blue-600 transition-colors">Why Us</Link>
-          <a href="tel:+919876543210"
-            className="flex items-center gap-1.5 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
-            📞 Call Us
-          </a>
           <Link href="/contact-us" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
             Contact Us
           </Link>
