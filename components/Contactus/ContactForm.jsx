@@ -4,11 +4,14 @@ import { useState } from 'react'
 import { NCR_CITIES } from '@/lib/data'
 
 const INITIAL = { name: '', phone: '', email: '', location: '', budget: '', message: '' }
+const ACCESS_KEY = '24d6c3f8-8d03-48ea-8b9a-4253bfc5068f'
 
 export default function ContactForm() {
   const [form, setForm] = useState(INITIAL)
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [apiError, setApiError] = useState('')
 
   const validate = () => {
     const e = {}
@@ -25,14 +28,41 @@ export default function ContactForm() {
     if (errors[e.target.name]) setErrors({ ...errors, [e.target.name]: '' })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setApiError('')
     const errs = validate()
     if (Object.keys(errs).length > 0) {
       setErrors(errs)
       return
     }
-    setSubmitted(true)
+    setLoading(true)
+    try {
+      const formData = new FormData()
+      formData.append('access_key', ACCESS_KEY)
+      formData.append('name', form.name)
+      formData.append('email', form.email)
+      formData.append('phone', form.phone)
+      formData.append('location', form.location)
+      formData.append('budget', form.budget)
+      formData.append('message', form.message)
+      formData.append('subject', `New Property Enquiry from ${form.name} – ${form.location}`)
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      })
+      const data = await res.json()
+      if (data.success) {
+        setSubmitted(true)
+      } else {
+        setApiError(data.message || 'Something went wrong. Please try again.')
+      }
+    } catch {
+      setApiError('Network error. Please check your connection and try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (submitted) {
@@ -128,11 +158,24 @@ export default function ContactForm() {
         {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
       </div>
 
+      {apiError && (
+        <p className="text-red-500 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-2.5">{apiError}</p>
+      )}
+
       <button
         type="submit"
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors text-sm shadow-md"
+        disabled={loading}
+        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-colors text-sm shadow-md flex items-center justify-center gap-2"
       >
-        Send Enquiry →
+        {loading ? (
+          <>
+            <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+            Sending...
+          </>
+        ) : 'Send Enquiry →'}
       </button>
     </form>
   )
